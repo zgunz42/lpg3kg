@@ -8,7 +8,7 @@ export const RecentPost = () => {
   const [name, setName] = useState<string>("")
   const queryClient = useQueryClient()
 
-  const { data: recentPost, isPending: isLoadingPosts } = useQuery({
+  const { data: recentPost, isPending: isLoadingPosts, isError: isErrorPosts } = useQuery({
     queryKey: ["get-recent-post"],
     queryFn: async () => {
       const res = await client.post.recent.$get()
@@ -33,7 +33,19 @@ export const RecentPost = () => {
         <p className="text-[#ececf399] text-base/6">
           Loading posts...
         </p>
-      ) : recentPost ? (
+      )
+      : isErrorPosts ? (
+        <p className="text-[#ececf399] text-base/6">
+          Error loading posts.
+          <a
+            className="text-zinc-100 underline"
+            onClick={() => queryClient.invalidateQueries({ queryKey: ["get-recent-post"] })}
+          >
+            Retry
+          </a>
+        </p>
+      )
+      : recentPost ? (
         <p className="text-[#ececf399] text-base/6">
           Your recent post: "{recentPost.name}"
         </p>
