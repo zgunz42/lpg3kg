@@ -11,24 +11,30 @@ export const merchantsRouter = j.router({
       longitude: z.number().min(-180, { message: "Longitude must be at least -180." }).max(180, { message: "Longitude must be at most 180." }),
     })
   ).query(async ({ c, input }) => {
-    const { latitude, longitude } = input;
-    const { data } = await axios.get<MerchantResponse>(
-      'https://subsiditepatlpg.mypertamina.id/infolpg3kg/api/general/general/v1/merchants/near-location',
-      {
-        params: { latitude, longitude }
-      },
-    );
-
-    if (!data || !data.success) {
+    try {
+          const { latitude, longitude } = input;
+          const { data } = await axios.get<MerchantResponse>(
+            'https://subsiditepatlpg.mypertamina.id/infolpg3kg/api/general/general/v1/merchants/near-location',
+            {
+              params: { latitude, longitude }
+            },
+          );
+      
+          if (!data || !data.success) {
+            throw new HTTPException(500, {
+              message: data.message
+            })
+          }
+      
+          return c.superjson({
+            data: data.data.merchants,
+            message: data.message,
+            code: 200
+          });
+    } catch (error: any) {
       throw new HTTPException(500, {
-        message: data.message
+        message: error.message
       })
     }
-
-    return c.superjson({
-      data: data.data.merchants,
-      message: data.message,
-      code: 200
-    });
   }),
 })
