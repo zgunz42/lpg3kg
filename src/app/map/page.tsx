@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from 'react';
-import { MapPin, X } from 'lucide-react';
+import { MapPin, TagIcon, X } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 // import L from 'leaflet';
 import { Merchant } from '@/server/types';
@@ -14,7 +14,7 @@ const TileLayer = dynamic(() => import('react-leaflet').then((mod) => mod.TileLa
 const Marker = dynamic(() => import('react-leaflet').then((mod) => mod.Marker), { ssr: false });
 const Popup = dynamic(() => import('react-leaflet').then((mod) => mod.Popup), { ssr: false });
 const LocationMarker = dynamic(() => import('../components/map-marker').then((mod) => mod.LocationMarker), { ssr: false });
-
+const PointMarker = dynamic(() => import('../components/point-markler').then((mod) => mod.PointMarker), { ssr: false });
 
 export default function Map() {
   const [point, setPoint] = useState<[number, number]>([-8.6976, 115.1762]);
@@ -111,17 +111,9 @@ export default function Map() {
                 </Marker>
               ))}
               {searchHistory.map((search, index) => (
-                <Marker
+                <PointMarker
                   key={`search-${index}`}
                   position={search.position}
-                  // icon={new L.Icon({
-                  //   iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-                  //   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-                  //   iconSize: [25, 41],
-                  //   iconAnchor: [12, 41],
-                  //   popupAnchor: [1, -34],
-                  //   shadowSize: [41, 41]
-                  // })}
                 >
                   <Popup>
                     <div className="p-2">
@@ -131,7 +123,7 @@ export default function Map() {
                       </p>
                     </div>
                   </Popup>
-                </Marker>
+                </PointMarker>
               ))}
             </MapContainer>
           </div>
