@@ -1,0 +1,1 @@
+export const GET_NEARBY_MERCHANT_QUERY = 'get-nearby-merchant';
