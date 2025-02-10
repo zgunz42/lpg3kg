@@ -25,7 +25,8 @@ if (typeof window !== "undefined") {
   currentLocationIcon = L.divIcon({
     html: `
       <div style="position: relative; width: 20px; height: 20px;">
-        <div style="width: 100%; height: 100%; background: blue; border-radius: 50%;"></div>
+        <div style="width: 100%; height: 100%; background: rgba(68,214,44, 0.5); border-radius: 50%; position: absolute;"></div>
+        <div style="width: 10px; height: 10px; background: rgba(68,214,44, 1); border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
       </div>`,
     className: "",
     iconSize: [20, 20],
